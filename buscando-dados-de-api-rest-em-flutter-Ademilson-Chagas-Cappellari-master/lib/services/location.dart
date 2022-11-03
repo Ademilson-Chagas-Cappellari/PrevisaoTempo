@@ -1,43 +1,50 @@
 import 'package:geolocator/geolocator.dart';
 
-/// Determine a posição atual do dispositivo.
-/// Quando os serviços de localização não estão habilitados ou permissões
-/// forem negados, o `Future` retornará um erro.
-// ignore: unused_element
-Future<Position> _determinePosition() async {
-  bool serviceEnabled;
-  LocationPermission permission;
+class Location {
+  late double latitude;
+  late double longitude;
 
-  // Teste se os serviços de localização estão ativados.
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    // Os serviços de localização não estão ativados, não continue
-    // acessar a posição e solicitar aos usuários do
-    // App para habilitar os serviços de localização.
-    return Future.error('Os serviços de localização estão desativados');
-  }
+  Future<void> checkLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // serviço de localização desabilitado. Não será possível continuar
+      return Future.error('O serviço de localização está desabilitado.');
+    }
+    permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      /*
-      As permissões são negadas, da próxima vez você pode tentar solicitando permissões 
-      novamente (isto também é onde o Android shouldShowRequestPermissionRational 
-      e retornou verdadeiro. De acordo com as diretrizes do Android seu aplicativo
-      deve mostrar uma interface do usuário explicativa agora.
-      */
-      return Future.error('As permissões de localização foram negadas');
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Sem permissão para acessar a localização
+        return Future.error('Sem permissão para acesso à localização');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // permissões negadas para sempre
+      return Future.error(
+          'A permissão para acesso a localização foi negada. Não é possível pedir permissão.');
     }
   }
 
-  if (permission == LocationPermission.deniedForever) {
-    // As permissões são negadas para sempre, manusiar adequadamente.
-    return Future.error(
-        'As permissões de localização foi negadas permanentemente, não podemos solicitar permissões.');
+// ignore: unused_element
+  Future<void> getCurrentPosition() async {
+    {
+      await checkLocationPermission();
+
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low);
+      latitude = position.latitude;
+      longitude = position.longitude;
+    }
   }
 
-  // Quando chegamos aqui, as permissões são concedidas e podemos
-  // continue acessando a posição do dispositivo.
-  return await Geolocator.getCurrentPosition();
+  double getLatitude() {
+    return latitude;
+  }
+
+  double getLongitude() {
+    return longitude;
+  }
 }
