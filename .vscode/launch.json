@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+    
+        
+
+        {
+            "name": "buscando-dados-de-api-rest-em-flutter-Ademilson-Chagas-Cappellari-master",
+            "cwd": "buscando-dados-de-api-rest-em-flutter-Ademilson-Chagas-Cappellari-master",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "buscando-dados-de-api-rest-em-flutter-Ademilson-Chagas-Cappellari-master (profile mode)",
+            "cwd": "buscando-dados-de-api-rest-em-flutter-Ademilson-Chagas-Cappellari-master",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "buscando-dados-de-api-rest-em-flutter-Ademilson-Chagas-Cappellari-master (release mode)",
+            "cwd": "buscando-dados-de-api-rest-em-flutter-Ademilson-Chagas-Cappellari-master",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

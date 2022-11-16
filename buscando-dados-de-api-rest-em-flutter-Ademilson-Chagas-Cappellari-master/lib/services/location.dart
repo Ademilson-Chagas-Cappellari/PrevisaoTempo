@@ -28,23 +28,10 @@ class Location {
     }
   }
 
-// ignore: unused_element
-  Future<void> getCurrentPosition() async {
-    {
-      await checkLocationPermission();
-
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.low);
-      latitude = position.latitude;
-      longitude = position.longitude;
-    }
-  }
-
-  double getLatitude() {
-    return latitude;
-  }
-
-  double getLongitude() {
-    return longitude;
+  Future<void> getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    latitude = position.latitude;
+    longitude = position.longitude;
   }
 }
